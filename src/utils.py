@@ -290,12 +290,12 @@ def generate_trajectory_chart(
     feature_x: str,
     feature_y: str,
     colour_code_column: str = None,
-    padding: int = 5,
+    padding: int = 0,
     width: int = 700,
     height: int = 500,
 ):
 
-    scale = alt.Scale(type="log")
+    scale = alt.Scale(type="symlog")
     chart = (
         alt.Chart(data)
         .mark_line(point={"size": 70})

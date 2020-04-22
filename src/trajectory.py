@@ -28,7 +28,12 @@ def trajectory_cases(data: pd.DataFrame, lang: NullTranslations) -> None:
         )
 
     data = data[
-        ["data", _("totale_casi"), _("nuovi_positivi"), _("denominazione_regione")]
+        [
+            "data",
+            _("totale_positivi"),
+            _("variazione_totale_positivi"),
+            _("denominazione_regione"),
+        ]
     ]
     data["data"] = pd.to_datetime(data["data"])
     data = data.sort_values(by="data", axis=0)
@@ -49,7 +54,9 @@ def trajectory_cases(data: pd.DataFrame, lang: NullTranslations) -> None:
     )
     national = average_over_days(national, "data", avg_days)
 
-    chart = generate_trajectory_chart(national, _("totale_casi"), _("nuovi_positivi"))
+    chart = generate_trajectory_chart(
+        national, _("totale_positivi"), _("variazione_totale_positivi")
+    )
     st.altair_chart(chart)
 
     st.markdown(_("## Regional breakdown"))
@@ -79,15 +86,15 @@ def trajectory_cases(data: pd.DataFrame, lang: NullTranslations) -> None:
         )
 
         final_data = averaged_regions[
-            (averaged_regions[_("totale_casi")] > 0)
-            & (averaged_regions[_("nuovi_positivi")] > 0)
+            (averaged_regions[_("totale_positivi")] > 0)
+            & (averaged_regions[_("variazione_totale_positivi")] > 0)
         ]
 
         st.altair_chart(
             generate_trajectory_chart(
                 final_data,
-                _("totale_casi"),
-                _("nuovi_positivi"),
+                _("totale_positivi"),
+                _("variazione_totale_positivi"),
                 colour_code_column="denominazione_regione",
             )
         )
